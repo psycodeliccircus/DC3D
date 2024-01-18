@@ -1,9 +1,6 @@
-name: Launcher Build
+name: DC3D Build
 
-on:
-  push:
-    branches:
-      - main
+on:  push
 
 jobs:
   create-release:
@@ -12,44 +9,48 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Obter versão
-        run: echo "versao=$(jq -r .version package.json)" >> $GITHUB_ENV
+      - name: Get version
+        run: echo "version=$(jq -r .version package.json)" >> $GITHUB_ENV
       
-      - name: Criar Release
-        id: criar_release
+      - name: Create Release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          tag_name: ${{ env.versao }}
-          release_name: Launcher EDR V${{ env.versao }}
+          tag_name: ${{ env.version }}
+          release_name: DC3D Models V${{ env.version }}
           draft: false
-          prerelease: ${{ contains(env.versao, 'beta') || contains(env.versao, 'alpha') }}
+          prerelease: ${{ contains(env.version, 'beta') || contains(env.version, 'alpha') }}
 
   build-launcher:
     needs: create-release
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
-      - name: Check-out repositório Git
-        uses: actions/checkout@v2
+      - name: Check out Git repository
+        uses: actions/checkout@v1
 
-      - name: Configurar Node.js e Python
+      - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-      - uses: actions/setup-python@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: 3.x
 
-      - name: Instalar Dependências
-        run: npm ci
+      - name: Install Dependencies
+        run: npm i
+        shell: bash
 
-      - name: Construir
+      - name: Build
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npm run build
+        shell: bash
