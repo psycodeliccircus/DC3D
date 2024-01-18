@@ -1,6 +1,6 @@
 {
   "name": "dc3d",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "App Oficial do Site dc3d.tech",
   "main": "main.js",
   "scripts": {
@@ -11,14 +11,14 @@
   "author": "RenildoMarcio",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^28.1.4",
-    "electron-builder": "^24.9.1"
+    "electron": "^27.0.2",
+    "electron-builder": "^24.6.4"
   },
   "dependencies": {
     "discord-rich-presence": "^0.0.8",
-    "electron-is-dev": "^3.0.1",
-    "electron-log": "^5.0.3",
-    "electron-updater": "^6.1.7",
+    "electron-is-dev": "^2.0.0",
+    "electron-log": "^4.4.8",
+    "electron-updater": "^6.1.4",
     "jimp": "^0.22.10",
     "png2icons": "^2.0.1"
   }
