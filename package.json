@@ -1,6 +1,6 @@
 {
   "name": "dc3d",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "App Oficial do Site dc3d.tech",
   "main": "main.js",
   "scripts": {

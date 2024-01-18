@@ -21,7 +21,7 @@ function createWindow () {
     height: appConfig['height'],
     minWidth: appConfig['minWidth'],
     minHeight: appConfig['minHeight'],
-    icon: "assets/icon.ico",
+    icon: path.join(__dirname, 'assets/icon.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
@@ -122,7 +122,7 @@ function createWindow () {
     appTray.setContextMenu(contextMenu)
     mainWindow.webContents.once('dom-ready', () => {
         mainWindow.show()
-        //autoUpdater.checkForUpdates()
+        autoUpdater.checkForUpdates()
         //setActivity()
         appTray.on('click', () => {
             mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
