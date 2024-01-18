@@ -1,0 +1,55 @@
+name: DC3D Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Obter versão
+        run: echo "versao=$(jq -r .version package.json)" >> $GITHUB_ENV
+      
+      - name: Criar Release
+        id: criar_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: ${{ env.versao }}
+          release_name: DC3D Models V${{ env.versao }}
+          draft: false
+          prerelease: ${{ contains(env.versao, 'beta') || contains(env.versao, 'alpha') }}
+
+  build-launcher:
+    needs: create-release
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Check-out repositório Git
+        uses: actions/checkout@v2
+
+      - name: Configurar Node.js e Python
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+
+      - name: Instalar Dependências
+        run: npm ci
+
+      - name: Construir
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npm run build
