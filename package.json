@@ -1,0 +1,25 @@
+{
+  "name": "dc3d",
+  "version": "2.0.0",
+  "description": "App Oficial do Site dc3d.tech",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "node build.js --build",
+    "icon": "node build.js --icon=https://dc3d.tech/wp-content/uploads/2023/12/366965898_688213496081325_1035138667818993211_n.jpg"
+  },
+  "author": "RenildoMarcio",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^28.1.4",
+    "electron-builder": "^24.9.1"
+  },
+  "dependencies": {
+    "discord-rich-presence": "^0.0.8",
+    "electron-is-dev": "^3.0.1",
+    "electron-log": "^5.0.3",
+    "electron-updater": "^6.1.7",
+    "jimp": "^0.22.10",
+    "png2icons": "^2.0.1"
+  }
+}
