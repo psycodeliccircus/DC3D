@@ -21,7 +21,7 @@ function createWindow () {
     height: appConfig['height'],
     minWidth: appConfig['minWidth'],
     minHeight: appConfig['minHeight'],
-    icon: "build/icon.ico",
+    icon: "assets/icon.ico",
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
@@ -31,6 +31,8 @@ function createWindow () {
 
   //Load Appliaction Main Menu
   Menu.setApplicationMenu(mainMenu) 
+
+  nativeTheme.themeSource = 'dark'
 
   //Load Right click menu
   mainWindow.webContents.on('context-menu', e => {
@@ -48,18 +50,24 @@ function createWindow () {
       shell.openExternal(url);
     }
   });
-  appTray = new Tray(__dirname + '/build/icon.ico');
+  appTray = new Tray(__dirname + '/assets/icon.ico');
   appTray.setToolTip("DC3D Models")
   const nativeImage = require('electron').nativeImage
     const contextMenu = Menu.buildFromTemplate([
         { 
             label: 'DC3D Models v' + app.getVersion(),
-            icon: nativeImage.createFromPath(__dirname + '/build/icon.png').resize({ width: 16 }) 
+            icon: nativeImage.createFromPath(__dirname + '/assets/icon.png').resize({ width: 16 }),
+            enabled: false,
         },
         { type: 'separator' },
+        {
+          label : 'Home', 
+          icon: nativeImage.createFromPath(__dirname + '/assets/icon.png').resize({ width: 16 }),
+          click : () => { require('./main')("home") }
+        },
         { 
             label: 'Sobre',
-            icon: nativeImage.createFromPath(__dirname + '/build/icon.png').resize({ width: 16 }),  
+            icon: nativeImage.createFromPath(__dirname + '/assets/icon.png').resize({ width: 16 }),  
             click : () => { require('./main')("about") } 
         },
         { type: 'separator' },
@@ -75,11 +83,41 @@ function createWindow () {
             click() { autoUpdater.checkForUpdates() } 
         },
         { type: 'separator' },
-        { 
-            label: 'Sair',
-            icon: nativeImage.createFromPath(__dirname + '/assets/sair.png').resize({ width: 16 }), 
-            click() { app.quit() } 
-        },
+        {
+          label: 'Redes Sociais',
+          icon: nativeImage.createFromPath(__dirname + '/assets/redesocial.png').resize({ width: 16 }),
+          submenu: [
+              { 
+                  label: 'YouTube', 
+                  icon: nativeImage.createFromPath(__dirname + '/assets/youtube.png').resize({ width: 16 }),
+                  click() { shell.openExternal('https://youtube.com/renildomarcio'); } 
+              },
+              { type: 'separator' },
+              { 
+                  label: 'TikTok', 
+                  icon: nativeImage.createFromPath(__dirname + '/assets/tiktok.png').resize({ width: 16 }),
+                  click() { shell.openExternal('https://www.tiktok.com/@renildomarcio'); } 
+              },
+              { type: 'separator' },
+              { 
+                  label: 'Twitter', 
+                  icon: nativeImage.createFromPath(__dirname + '/assets/twitter.png').resize({ width: 16 }),
+                  click() { shell.openExternal('https://twitter.com/renildomarcio'); } 
+              },
+              { type: 'separator' },
+              { 
+                  label: 'FaceBook', 
+                  icon: nativeImage.createFromPath(__dirname + '/assets/facebook.png').resize({ width: 16 }),
+                  click() { shell.openExternal('https://facebook.com/esxbrasil'); } 
+              },
+          ]
+      },
+      { type: 'separator' },
+      { 
+          label: 'Sair',
+          icon: nativeImage.createFromPath(__dirname + '/assets/sair.png').resize({ width: 16 }), 
+          click() { app.quit() } 
+      },
     ])
     appTray.setContextMenu(contextMenu)
     mainWindow.webContents.once('dom-ready', () => {
