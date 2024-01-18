@@ -39,7 +39,7 @@ class Index {
                     createStartMenuShortcut: true,
                     packElevateHelper: true,
                     createDesktopShortcut: true,
-                    shortcutName: "Launcher EDR",
+                    shortcutName: "DC3D Models",
                     license: "./eula.txt"
                 },
                 mac: {
